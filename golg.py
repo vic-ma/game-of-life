@@ -3,21 +3,24 @@ class GameOfLife:
         self.board = board
     
     def prepare_tick(self) -> None:
-        for x in range(board.columns):
-            for y in range(board.rows):
+        for x in range(board.columns): #count live neighbours
+            for y in range(board.rows): #loop over every cell
                 live_neighbours = 0
                 for n_x in range(x-1, x+2):
-                    for n_y in range(y-1, y+1):
-                        if not (n_x == x and n_y == y):
+                    for n_y in range(y-1, y+1): #loop over all neighbours
+                        if not (n_x == x and n_y == y): #do not include centre
                             if 0 <= n_x < board.columns && \
-                                    0 <= n_y < board.rows
+                                    0 <= n_y < board.rows: #for cells on edges
+                                        if board.grid[n_x][n_y].alive:
+                                            live_neighbours += 1
 
     def start(self) -> None:
         pass
 
 class GameBoard:
     def __init__(self, columns: int, rows: int) -> None:
-        self.grid = [[Cell() for column in range(x)] for row in range(y)] 
+        self.grid = [[Cell() for column in range(columns)] for row in \
+                range(rows)] 
         self.columns = columns
         self.rows = rows
 
