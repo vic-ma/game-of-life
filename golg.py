@@ -1,10 +1,7 @@
 class GameBoard:
     def __init__(self, x: int, y: int) -> None:
-        self.grid = [x]
-        for column in x:
-            for row in y:
-                self.grid[column][row] = Cell()
-    
+        self.grid = [[Cell() for column in range(x)] for row in range(y)] 
+
     def birth(self, x: int, y:int) -> None:
         self.grid[x][y].alive_after_tick = True
 
@@ -24,3 +21,5 @@ class Cell:
     def tick(self) -> None:
         self.alive = self.alive_after_tick
 
+if __name__ == '__main__':
+    gb = GameBoard(5, 5)
