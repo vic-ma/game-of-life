@@ -1,6 +1,9 @@
 class GameBoard:
     def __init__(self, x: int, y: int) -> None:
-        pass
+        self.grid = [x]
+        for column in x:
+            for row in y:
+                self.grid[column][row] = Cell()
     
     def birth(self, x: int, y:int) -> None:
         pass
