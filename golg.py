@@ -6,13 +6,15 @@ class GameBoard:
                 self.grid[column][row] = Cell()
     
     def birth(self, x: int, y:int) -> None:
-        pass
+        self.grid[x][y].alive_after_tick = True
 
     def kill(self, x: int, y:int) -> None:
-        pass
+        self.grid[x][y].alive_after_tick = False
 
     def tick(self) -> None:
-        pass
+        for x in len(self.grid):
+            for y in len(self.grid[0]):
+                self.grid[x][y].tick()
 
 class Cell:
     def __init__(self) -> None:
