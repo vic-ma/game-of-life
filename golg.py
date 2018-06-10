@@ -13,14 +13,9 @@ class GameBoard:
 
 class Cell:
     def __init__(self) -> None:
-        pass
-
-    def birth(self) -> None:
-        pass
-
-    def kill(self) -> None:
-        pass
+        self.alive = False
+        self.alive_after_tick = False
 
     def tick(self) -> None:
-        pass
+        self.alive = self.alive_after_tick
 
