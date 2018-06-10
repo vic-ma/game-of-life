@@ -9,8 +9,8 @@ class GameBoard:
         self.grid[x][y].alive_after_tick = False
 
     def tick(self) -> None:
-        for x in len(self.grid):
-            for y in len(self.grid[0]):
+        for x in range(len(self.grid)):
+            for y in range(len(self.grid[0])):
                 self.grid[x][y].tick()
 
 class Cell:
@@ -23,3 +23,6 @@ class Cell:
 
 if __name__ == '__main__':
     gb = GameBoard(5, 5)
+    gb.birth(0, 2)
+    gb.tick()
+    print(gb.grid[0][2].alive)
