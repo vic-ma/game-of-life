@@ -1,3 +1,13 @@
+class GameOfLife:
+    def __init__(self) -> None:
+        pass
+    
+    def tick(self) -> None:
+        pass
+
+    def start(self) -> None:
+        pass
+
 class GameBoard:
     def __init__(self, x: int, y: int) -> None:
         self.grid = [[Cell() for column in range(x)] for row in range(y)] 
