@@ -1,23 +1,3 @@
-class GameOfLife:
-    def __init__(self, board: 'GameBoard') -> None:
-        self.board = board
-    
-    def prepare_tick(self) -> None:
-        for x in range(self.board.columns):  # Count live neighbours
-            for y in range(self.board.rows):  # Loop over every cell
-                live_neighbours = 0
-                for n_x in range(x-1, x+2):
-                    for n_y in range(y-1, y+2):  # Loop over all neighbours
-                        # Exclude centre and check for neighbours not in grid
-                        if not (n_x == x and n_y == y) and \
-                                0 <= n_x < self.board.columns and \
-                                0 <= n_y < self.board.rows:
-                                        if self.board.grid[n_x][n_y].alive:
-                                            live_neighbours += 1
-
-    def start(self) -> None:
-        pass
-
 class GameBoard:
     def __init__(self, columns: int, rows: int) -> None:
         self.grid = [[Cell() for column in range(columns)] for row in \
@@ -35,6 +15,22 @@ class GameBoard:
         for x in range(self.columns):
             for y in range(self.rows):
                 self.grid[x][y].tick()
+
+    def prepare_tick(self) -> None:
+        for x in range(self.columns):
+            for y in range(self.rows):  # Loop over every cell
+                live_neighbours = 0
+                for n_x in range(x-1, x+2):
+                    for n_y in range(y-1, y+2):  # Loop over all neighbours
+                        # Exclude centre and check for neighbours not in grid
+                        if not (n_x == x and n_y == y) and \
+                                0 <= n_x < self.columns and \
+                                0 <= n_y < self.rows:
+                                        if self.grid[n_x][n_y].alive:
+                                            live_neighbours += 1
+                if self.grid[x][y].alive and live_neighbours < 3:
+                    self.kill(x,y)
+                elif live_neighbours 
 
 class Cell:
     def __init__(self) -> None:
