@@ -1,17 +1,18 @@
 class GameOfLife:
-    def __init__(self, board: GameBoard) -> None:
+    def __init__(self, board: 'GameBoard') -> None:
         self.board = board
     
     def prepare_tick(self) -> None:
-        for x in range(board.columns): #count live neighbours
-            for y in range(board.rows): #loop over every cell
+        for x in range(self.board.columns):  # Count live neighbours
+            for y in range(self.board.rows):  # Loop over every cell
                 live_neighbours = 0
                 for n_x in range(x-1, x+2):
-                    for n_y in range(y-1, y+1): #loop over all neighbours
-                        if not (n_x == x and n_y == y): #do not include centre
-                            if 0 <= n_x < board.columns && \
-                                    0 <= n_y < board.rows: #for cells on edges
-                                        if board.grid[n_x][n_y].alive:
+                    for n_y in range(y-1, y+2):  # Loop over all neighbours
+                        # Exclude centre and check for neighbours not in grid
+                        if not (n_x == x and n_y == y) and \
+                                0 <= n_x < self.board.columns and \
+                                0 <= n_y < self.board.rows:
+                                        if self.board.grid[n_x][n_y].alive:
                                             live_neighbours += 1
 
     def start(self) -> None:
@@ -45,6 +46,8 @@ class Cell:
 
 if __name__ == '__main__':
     gb = GameBoard(5, 5)
-    gb.birth(0, 2)
+    gol = GameOfLife(gb)
+    gb.birth(2,2)
+    gb.birth(2,3)
     gb.tick()
-    print(gb.grid[0][2].alive)
+    gol.prepare_tick()
