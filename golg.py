@@ -1,7 +1,7 @@
 import time
 from typing import List
 
-class GameBoard:
+class GameOfLife:
     def __init__(self, columns: int, rows: int) -> None:
         self.grid = [[Cell() for row in range(rows)] for column in \
                 range(columns)] 
@@ -73,6 +73,6 @@ class Cell:
         self.alive = self.alive_after_tick
 
 if __name__ == '__main__':
-    gb = GameBoard(20, 20)
-    gb.seed([[10,10],[11,10],[12,10],[12,11],[11,12]])
-    gb.play()
+    gol = GameOfLife(20, 20)
+    gol.seed([[10,10],[11,10],[12,10],[12,11],[11,12]])
+    gol.play()
