@@ -29,8 +29,11 @@ class GameBoard:
                                         if self.grid[n_x][n_y].alive:
                                             live_neighbours += 1
                 if self.grid[x][y].alive and live_neighbours < 3:
-                    self.kill(x,y)
-                elif live_neighbours 
+                    kill(x,y)  # Underpopulation
+                elif self.grid[x][y].alive and live_neighbours > 3:
+                    kill(x,y)  # Overpopulation
+                elif not self.grid[x][y].alive and live_neighbours == 3:
+                    birth(x,y) # Birth
 
 class Cell:
     def __init__(self) -> None:
