@@ -1,9 +1,10 @@
 import time
+from typing import List
 
 class GameBoard:
     def __init__(self, columns: int, rows: int) -> None:
-        self.grid = [[Cell() for column in range(columns)] for row in \
-                range(rows)] 
+        self.grid = [[Cell() for row in range(rows)] for column in \
+                range(columns)] 
         self.columns = columns
         self.rows = rows
 
@@ -11,7 +12,7 @@ class GameBoard:
         for y in reversed(range(self.rows)):
             for x in range(self.columns):
                 if self.grid[x][y].alive:
-                    print('x', end ='')
+                    print('*', end ='')
                 else:
                     print('o', end ='')
             print()
@@ -34,12 +35,16 @@ class GameBoard:
                                 0 <= n_y < self.rows:
                                         if self.grid[n_x][n_y].alive:
                                             live_neighbours += 1
-                if cell.alive and live_neighbours <= 1:
+                if cell.alive and (live_neighbours == 2 or
+                        live_neighbours == 3):
+                    cell.live()  # Survival
+                elif cell.alive and live_neighbours <= 1:
                     cell.kill()  # Underpopulation
                 elif cell.alive and live_neighbours >= 4:
                     cell.kill()  # Overpopulation
                 elif not cell.alive and live_neighbours == 3:
-                    cell.birth()  # Birth
+                    cell.live()  # Birth
+
 
     def play(self) -> None:
         while True:
@@ -47,14 +52,18 @@ class GameBoard:
             self.display()
             self.prepare_tick()
             self.tick()
-            time.sleep(1)
+            time.sleep(0.5)
+
+    def seed(self, coordinates: List[List[int]]) -> None:
+        for coord in coordinates:
+            self.grid[coord[0]][coord[1]].alive = True
 
 class Cell:
     def __init__(self) -> None:
         self.alive = False
         self.alive_after_tick = False
 
-    def birth(self) -> None:
+    def live(self) -> None:
         self.alive_after_tick = True
 
     def kill(self) -> None:
@@ -64,6 +73,6 @@ class Cell:
         self.alive = self.alive_after_tick
 
 if __name__ == '__main__':
-    gb = GameBoard(5, 5)
-    gb.grid[3][1].alive = True
+    gb = GameBoard(20, 20)
+    gb.seed([[10,10],[11,10],[12,10],[12,11],[11,12]])
     gb.play()
