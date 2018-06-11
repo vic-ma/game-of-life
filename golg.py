@@ -5,11 +5,6 @@ class GameBoard:
         self.columns = columns
         self.rows = rows
 
-    def birth(self, x: int, y:int) -> None:
-        self.grid[x][y].alive_after_tick = True
-
-    def kill(self, x: int, y:int) -> None:
-        self.grid[x][y].alive_after_tick = False
 
     def tick(self) -> None:
         for x in range(self.columns):
@@ -28,16 +23,22 @@ class GameBoard:
                                 0 <= n_y < self.rows:
                                         if self.grid[n_x][n_y].alive:
                                             live_neighbours += 1
-                if self.grid[x][y].alive and live_neighbours < 3:
-                    kill(x,y)  # Underpopulation
-                elif self.grid[x][y].alive and live_neighbours > 3:
-                    kill(x,y)  # Overpopulation
+                if self.grid[x][y].alive and live_neighbours <= 1:
+                    self.grid[x][y].kill()  # Underpopulation
+                elif self.grid[x][y].alive and live_neighbours >= 4:
+                    self.grid[x][y].kill()  # Overpopulation
                 elif not self.grid[x][y].alive and live_neighbours == 3:
-                    birth(x,y) # Birth
+                    self.grid[x][y].birth()  # Birth
 
 class Cell:
     def __init__(self) -> None:
         self.alive = False
+        self.alive_after_tick = False
+
+    def birth(self) -> None:
+        self.alive_after_tick = True
+
+    def kill(self) -> None:
         self.alive_after_tick = False
 
     def tick(self) -> None:
