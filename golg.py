@@ -5,6 +5,14 @@ class GameBoard:
         self.columns = columns
         self.rows = rows
 
+    def display(self) -> None:
+        for y in reversed(range(self.rows)):
+            for x in range(self.columns):
+                if self.grid[x][y].alive:
+                    print('x', end ='')
+                else:
+                    print('o', end ='')
+            print()
 
     def tick(self) -> None:
         for x in range(self.columns):
@@ -14,21 +22,22 @@ class GameBoard:
     def prepare_tick(self) -> None:
         for x in range(self.columns):
             for y in range(self.rows):  # Loop over every cell
+                cell = self.grid[x][y]
                 live_neighbours = 0
                 for n_x in range(x-1, x+2):
                     for n_y in range(y-1, y+2):  # Loop over all neighbours
-                        # Exclude centre and check for neighbours not in grid
+                        # Exclude centre and make sure neighbours are in grid
                         if not (n_x == x and n_y == y) and \
                                 0 <= n_x < self.columns and \
                                 0 <= n_y < self.rows:
                                         if self.grid[n_x][n_y].alive:
                                             live_neighbours += 1
-                if self.grid[x][y].alive and live_neighbours <= 1:
-                    self.grid[x][y].kill()  # Underpopulation
-                elif self.grid[x][y].alive and live_neighbours >= 4:
-                    self.grid[x][y].kill()  # Overpopulation
-                elif not self.grid[x][y].alive and live_neighbours == 3:
-                    self.grid[x][y].birth()  # Birth
+                if cell.alive and live_neighbours <= 1:
+                    cell.kill()  # Underpopulation
+                elif cell.alive and live_neighbours >= 4:
+                    cell.kill()  # Overpopulation
+                elif not cell.alive and live_neighbours == 3:
+                    cell.birth()  # Birth
 
 class Cell:
     def __init__(self) -> None:
@@ -46,8 +55,5 @@ class Cell:
 
 if __name__ == '__main__':
     gb = GameBoard(5, 5)
-    gol = GameOfLife(gb)
-    gb.birth(2,2)
-    gb.birth(2,3)
-    gb.tick()
-    gol.prepare_tick()
+    gb.grid[3][1].alive = True
+    gb.display()
