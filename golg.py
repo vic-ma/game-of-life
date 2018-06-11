@@ -1,3 +1,5 @@
+import time
+
 class GameBoard:
     def __init__(self, columns: int, rows: int) -> None:
         self.grid = [[Cell() for column in range(columns)] for row in \
@@ -39,6 +41,14 @@ class GameBoard:
                 elif not cell.alive and live_neighbours == 3:
                     cell.birth()  # Birth
 
+    def play(self) -> None:
+        while True:
+            print()
+            self.display()
+            self.prepare_tick()
+            self.tick()
+            time.sleep(1)
+
 class Cell:
     def __init__(self) -> None:
         self.alive = False
@@ -56,4 +66,4 @@ class Cell:
 if __name__ == '__main__':
     gb = GameBoard(5, 5)
     gb.grid[3][1].alive = True
-    gb.display()
+    gb.play()
