@@ -3,8 +3,8 @@ from typing import List
 
 class GameOfLife:
     def __init__(self, columns: int, rows: int) -> None:
-        self.grid = [[Cell() for row in range(rows)] for column in \
-                range(columns)] 
+        self.grid = [[Cell() for row in range(rows)] for column in
+                    range(columns)]
         self.columns = columns
         self.rows = rows
 
@@ -29,14 +29,15 @@ class GameOfLife:
                 live_neighbours = 0
                 for n_x in range(x-1, x+2):
                     for n_y in range(y-1, y+2):  # Loop over all neighbours
-                        # Exclude centre and make sure neighbours are in grid
                         if not (n_x == x and n_y == y) and \
                                 0 <= n_x < self.columns and \
                                 0 <= n_y < self.rows:
-                                        if self.grid[n_x][n_y].alive:
-                                            live_neighbours += 1
+                                # If neighbour is not the cell itself and
+                                # If neighbour is within grid
+                            if self.grid[n_x][n_y].alive:
+                                live_neighbours += 1
                 if cell.alive and (live_neighbours == 2 or
-                        live_neighbours == 3):
+                                   live_neighbours == 3):
                     cell.live()  # Survival
                 elif cell.alive and live_neighbours <= 1:
                     cell.kill()  # Underpopulation
